@@ -1,4 +1,4 @@
-FROM linuxserver/sonarr
+FROM linuxserver/sonarr:arm32v6-latest
 COPY qemu-arm-static /usr/bin
 
 MAINTAINER mdhiggins <mdhiggins23@gmail.com>
