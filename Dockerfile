@@ -1,4 +1,6 @@
 FROM linuxserver/sonarr
+COPY qemu-arm-static /usr/bin
+
 MAINTAINER mdhiggins <mdhiggins23@gmail.com>
 
 # get python3 and git, and install python libraries
