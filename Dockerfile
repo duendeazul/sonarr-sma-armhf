@@ -1,7 +1,6 @@
 FROM linuxserver/sonarr:arm32v7-preview
 COPY qemu-arm-static /usr/bin
-
-MAINTAINER mdhiggins <mdhiggins23@gmail.com>
+LABEL maintainer="mdhiggins <mdhiggins23@gmail.com>"
 
 # get python3 and git, and install python libraries
 RUN \
@@ -11,7 +10,6 @@ RUN \
     wget \
     python3 \
     python3-pip && \
-
 # install pip, venv, and set up a virtual self contained python environment
   python3 -m pip install --user --upgrade pip && \
   python3 -m pip install --user virtualenv && \
@@ -21,31 +19,33 @@ RUN \
     requests[security] \
     requests-cache \
     babelfish \
-    'guessit<2' \
-    'subliminal<2' \
-    'stevedore==1.19.1' \
+    tmdbsimple \
+    guessit \
+    mutagen \
+    subliminal \
+    stevedore \
     python-dateutil \
+    setuptools \
     qtfaststart && \
-
 # download repo
   git clone https://github.com/mdhiggins/sickbeard_mp4_automator.git /usr/local/bin/sma/sickbeard_mp4_automator && \
-
 # create logging directory
   mkdir /var/log/sickbeard_mp4_automator && \
   touch /var/log/sickbeard_mp4_automator/index.log && \
   chgrp -R users /var/log/sickbeard_mp4_automator && \
   chmod -R g+w /var/log/sickbeard_mp4_automator && \
-
 # ffmpeg
-  wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-armhf-static.tar.xz -O /tmp/ffmpeg.tar.xz && \
+  wget https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-armhf-static.tar.xz -O /tmp/ffmpeg.tar.xz && \
   mkdir /usr/local/bin/ffmpeg && \
   tar -xJf /tmp/ffmpeg.tar.xz -C /usr/local/bin/ffmpeg --strip-components 1 && \
   chgrp -R users /usr/local/bin/ffmpeg && \
   chmod g+x /usr/local/bin/ffmpeg/ffmpeg && \
   chmod g+x /usr/local/bin/ffmpeg/ffprobe && \
-
 # cleanup
   rm -rf \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/tmp/*
+
+EXPOSE 8989
+VOLUME ["/usr/local/bin/sma/sickbeard_mp4_automator/autoProcess.ini"]
