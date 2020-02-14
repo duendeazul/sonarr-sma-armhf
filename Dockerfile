@@ -47,5 +47,5 @@ RUN \
     /var/lib/apt/lists/* \
     /var/tmp/*
 
-EXPOSE 7878
+EXPOSE 8989
 VOLUME ["/usr/local/bin/sma/sickbeard_mp4_automator/autoProcess.ini"]
